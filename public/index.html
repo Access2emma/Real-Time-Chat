@@ -11,6 +11,21 @@
 	</head>
 	<body>
 		<p>Welcome to Node Chat App</p>
-		<script type="text/javascript"></script>
+
+
+
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			let socket = io();
+
+			socket.on('connect', ()=>{
+				console.log('Connected to the server!');
+			});
+
+			socket.on('disconnect', ()=>{
+				console.log('Disconnected from server');
+			});
+		</script>
 	</body>
 </html>

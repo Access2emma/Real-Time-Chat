@@ -7,7 +7,12 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/server.js",
+    "test": "export NODE_ENV=test || SET=\"NODE_ENV=test\" && mocha test/**/*.test.js",
+    "test-watch": "nodemon --exec=\"npm test\""
+  },
+  "engines": {
+    "node": "6.10.0"
   },
   "author": "Access2emma",
   "license": "ISC",

@@ -1,32 +1,36 @@
-let socket = io();
+(function($){
 
-socket.on('connect', ()=>{
-	console.log('Connected to the server!');
+	let socket = io();
 
-	// socket.emit('create-message', {
-	// 	from: "Access2emma",
-	// 	text: "Hello all"
-	// });
+	let form = $('#message_form'),
+		messageInput = $('#message'),
+		messages = $('#messages');
 
-	// socket.emit('send-email', {
-	// 	to: 'newemail@example.com',
-	// 	title: 'Topic',
-	// 	body: 'Body of the message'
-	// })
-});
 
-socket.on('info', function(info){
-	console.log(info.msg);
-})
+	socket.on('connect', function(){
+		console.log('Connected to the server!');
+	});
 
-socket.on('new-message', function(data){
-	console.log('Incoming message: ', data);
-});
+	socket.on('new-message', function(data){
+		$('<li></li>', {text: `${data.from}: ${data.text}`})
+			.appendTo(messages);
+	});
 
-// socket.on('new-email', function(data){
-// 	console.log('Received a new email from the server: ', data);
-// });
+	socket.on('disconnect', function(data){
+		console.log('Disconnected from server: ', data);
+	});
 
-socket.on('disconnect', (data)=>{
-	console.log('Disconnected from server: ', data);
-});
+	form.on('submit', function(e){
+		e.preventDefault();
+
+		socket.emit('create-message', {from: 'User', text: messageInput.val()});
+
+		// reset input
+		messageInput.val('');
+
+	});
+
+})(jQuery);
+
+
+

@@ -6,16 +6,28 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="description" content="Demo project">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
 		<style type="text/css"></style>
 	</head>
 	<body>
-		<p>Welcome to Node Chat App</p>
+		<h1 class="text-center">Welcome to Node Chat App</h1>
 
+		<div id="message_container">
+			<ol id="messages">
+				
+			</ol>
+		</div>
 
-
+		<form id="message_form">
+			<div class="form-group">
+				<input type="text" id="message" name="message" placeholder="Enter message..." autofocus/>
+				<button>Send</button>
+			</div>
+		</form>
 
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="/js/jquery-3.1.1.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
 		<script src="/js/main.js"></script>
 	</body>
 </html>

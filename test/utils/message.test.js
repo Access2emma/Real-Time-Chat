@@ -1,6 +1,6 @@
 const expect = require('expect');
 
-const {generateMessage} = require('../../server/utils/message');
+const {generateMessage, generateLocationMessage} = require('../../server/utils/message');
 
 describe('Messaging Utilities', () => {
 	it('should return input information with current timestamp', ()=>{
@@ -14,5 +14,22 @@ describe('Messaging Utilities', () => {
 		expect(result.createdAt).toExist();
 		expect(result).toInclude(message);
 		expect(result.createdAt).toBeA('number');
-	})
-})
+	});
+
+	it('should return location link and timestamp', ()=>{
+
+		const finalURL = 'https://www.google.com/maps?q=342,403';
+		const location = {
+			latitude: 342,
+			longitude: 403,
+		};
+
+		const result = generateLocationMessage(location);
+
+		expect(result.createdAt).toExist();
+		expect(result.text).toBeA('string');
+		expect(result.createdAt).toBeA('number');
+		expect(result.text).toBe(finalURL);
+	});
+
+});

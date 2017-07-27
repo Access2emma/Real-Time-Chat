@@ -16,13 +16,16 @@
 	// Server event handles
 
 	socket.on('new-message', function(data){
-		$('<li></li>', {text: `${data.from}: ${data.text}`})
+		const formattedDate = moment(data.createdAt).format('h:mm A');
+
+		$('<li></li>', {text: `${data.from} ${formattedDate}: ${data.text}`})
 			.appendTo(messages);
 	});
 
 	socket.on('new-location-message', function(data){
+		const formattedDate = moment(data.createdAt).format('h:mm A');
 		let li = $('<li></li>');
-		li.text(data.from + ': ');
+		li.text(`${data.from} ${formattedDate} : `);
 		let a = $('<a target="_blank">My Current Location</a>');
 		a.attr('href', data.text);
 		li.append(a);
@@ -50,12 +53,16 @@
 			return alert('Your device does not support this feature!');
 		}
 
+		locationButton.attr('disabled', 'disabled').text('Checking Location...');
+
 		navigator.geolocation.getCurrentPosition(function(position){
 			const info = {latitude: position.coords.latitude, longitude: position.coords.longitude}
 			socket.emit('create-location-message', info);
+			locationButton.removeAttr('disabled').text('Send Location');
 
 		}, function(){
 			alert('Unable to fetch your location!');
+			locationButton.removeAttr('disabled').text('Send Location');
 		});
 	});
 

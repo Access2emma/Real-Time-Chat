@@ -6,29 +6,36 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="description" content="Demo project">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+		<link rel="stylesheet" href="/css/main.css">
 		<style type="text/css"></style>
 	</head>
-	<body>
-		<h1 class="text-center">Welcome to Node Chat App</h1>
+	<body class="chat">
 
-		<div id="message_container">
-			<ol id="messages">
-				
-			</ol>
+		<div class="chat__sidebar">
+			<h3>People</h3>
+			<div id="users"></div>
 		</div>
 
-		<form id="message_form">
-			<div class="form-group">
-				<input type="text" id="message" name="message" placeholder="Enter message..." autofocus/>
+		<div id="message_container" class="chat__main">
+			<ol id="messages" class="chat__messages"></ol>
+
+			<div class="chat__footer">
+				<form id="message_form">
+					<div class="form-group">
+						<input type="text" id="message" name="message" placeholder="Enter message..." autocomplete='off' autofocus/>
+					</div>
+						<button>Send</button>
+				</form>
+				<button id="locationButton">Send Location</button>
 			</div>
-				<button>Send</button>
-		</form>
-		<button id="locationButton">Send Location</button>
+
+			
+		</div>
 
 		<script src="/socket.io/socket.io.js"></script>
-		<script src="/js/jquery-3.1.1.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/libs/jquery-3.1.1.min.js"></script>
+		<script src="/js/libs/moment.js"></script>
 		<script src="/js/main.js"></script>
 	</body>
 </html>

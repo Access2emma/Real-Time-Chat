@@ -1,65 +1,31 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Node Chat App</title>
+		<title>Join Chat</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="description" content="Demo project">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
 		<link rel="stylesheet" href="/css/main.css">
-		<style type="text/css"></style>
 	</head>
-	<body class="chat">
-
-		<div class="chat__sidebar">
-			<h3>People</h3>
-			<div id="users"></div>
+	<body class="centered-form">
+		<div class="centered-form__form">
+			<form action='/chat.html'>
+				<div class="form-field">
+					<h3>Join Chat</h3>
+				</div>
+				<div class="form-field">
+					<label>Display Name</label>
+					<input type='text' name='name' autofocus />
+				</div>
+				<div class="form-field">
+					<label>Room Name</label>
+					<input type='text' name='room'/>
+				</div>
+				<div class="form-field">
+					<button>Join</button>
+				</div>
+			</form>
 		</div>
-
-		<div id="message_container" class="chat__main">
-			<ol id="messages" class="chat__messages"></ol>
-
-			<div class="chat__footer">
-				<form id="message_form">
-					<div class="form-group">
-						<input type="text" id="message" name="message" placeholder="Enter message..." autocomplete='off' autofocus/>
-					</div>
-						<button>Send</button>
-				</form>
-				<button id="locationButton">Send Location</button>
-			</div>
-			
-		</div>
-
-		<script id="chat_template" type="text/template">
-			<li class="message">
-				<div class="message__title">
-					<h4>{{from}}</h4>
-					<span>{{createdAt}}</span>
-				</div>
-				<div class="message__body">
-					<p>{{text}}</p>
-				</div>
-			</li>
-		</script>
-
-		<script id="location_chat_template" type="text/template">
-			<li class="message">
-				<div class="message__title">
-					<h4>{{from}}</h4>
-					<span>{{createdAt}}</span>
-				</div>
-				<div class="message__body">
-					<p><a href="{{url}}" target="_blank">My Current Location<a></p>
-				</div>
-			</li>
-		</script>
-
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="/js/libs/jquery-3.1.1.min.js"></script>
-		<script src="/js/libs/moment.js"></script>
-		<script src="/js/libs/mustache.js"></script>
-		<script src="/js/main.js"></script>
 	</body>
 </html>

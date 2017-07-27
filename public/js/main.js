@@ -7,6 +7,25 @@
 		messages = $('#messages'),
 		locationButton = $('#locationButton');
 
+	
+
+
+	function scrollToBottom(){
+	let scrollHeight = messages.prop('scrollHeight'),
+		scrollTop = messages.prop('scrollTop'),
+		clientHeight = messages.prop('clientHeight'),
+		newMessage = messages.find('li:last-child'),
+		newMessageHeight = messages.find('li:last-child').innerHeight(),
+		lastMessageHeight = newMessage.prev().innerHeight();
+
+		if(scrollHeight === clientHeight)
+			return;
+
+		if(scrollTop + clientHeight + newMessageHeight + lastMessageHeight >= scrollHeight){
+			messages.scrollTop(scrollHeight);
+		}
+	}
+
 
 	socket.on('connect', function(){
 		console.log('Connected to the server!');
@@ -25,6 +44,8 @@
 		const html = Mustache.render(chatTemplate, data);
 
 		messages.append(html);
+
+		scrollToBottom();
 	});
 
 	socket.on('new-location-message', function(data){
@@ -37,6 +58,8 @@
 		const html = Mustache.render(template, data);
 
 		messages.append(html);
+
+		scrollToBottom();
 		
 	});
 

@@ -9,8 +9,6 @@ describe('Messaging Utilities', () => {
 
 		const result = generateMessage(message);
 
-		console.log(result);
-
 		expect(result.createdAt).toExist();
 		expect(result).toInclude(message);
 		expect(result.createdAt).toBeA('number');

@@ -28,7 +28,16 @@
 
 
 	socket.on('connect', function(){
-		console.log('Connected to the server!');
+		const deparam = $.deparam(window.location.search);
+
+		socket.emit('join', deparam, function(error){
+			if(error){
+				alert(error);
+				window.location.href = '/';
+			}else{
+				console.log('No Error!');
+			}	
+		});
 	});
 
 

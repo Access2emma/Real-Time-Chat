@@ -15,12 +15,14 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
 
+	// broadcast message to every user except the new user
 	socket.broadcast.emit('new-message', generateMessage({from: 'Admin', text: 'A new user joined'}));
 
+
+	// Welcome only the new user
 	socket.emit('new-message', generateMessage({from: 'Admin', text: 'You are welcome'}));
 
 	socket.on('create-message', (message) => {
-		console.log('Data received from client: ', message);
 		io.emit('new-message', generateMessage(message));
 	});
 

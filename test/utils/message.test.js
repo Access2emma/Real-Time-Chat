@@ -27,9 +27,9 @@ describe('Messaging Utilities', () => {
 		const result = generateLocationMessage(location);
 
 		expect(result.createdAt).toExist();
-		expect(result.text).toBeA('string');
+		expect(result.url).toBeA('string');
 		expect(result.createdAt).toBeA('number');
-		expect(result.text).toBe(finalURL);
+		expect(result.url).toBe(finalURL);
 	});
 
 });

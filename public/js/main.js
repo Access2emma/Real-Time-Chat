@@ -18,18 +18,26 @@
 	socket.on('new-message', function(data){
 		const formattedDate = moment(data.createdAt).format('h:mm A');
 
-		$('<li></li>', {text: `${data.from} ${formattedDate}: ${data.text}`})
-			.appendTo(messages);
+		data.createdAt = formattedDate;
+
+		let chatTemplate = $('#chat_template').html();
+
+		const html = Mustache.render(chatTemplate, data);
+
+		messages.append(html);
 	});
 
 	socket.on('new-location-message', function(data){
 		const formattedDate = moment(data.createdAt).format('h:mm A');
-		let li = $('<li></li>');
-		li.text(`${data.from} ${formattedDate} : `);
-		let a = $('<a target="_blank">My Current Location</a>');
-		a.attr('href', data.text);
-		li.append(a);
-		messages.append(li);
+
+		data.createdAt = formattedDate;
+
+		let template = $('#location_chat_template').html();
+
+		const html = Mustache.render(template, data);
+
+		messages.append(html);
+		
 	});
 
 	socket.on('disconnect', function(data){

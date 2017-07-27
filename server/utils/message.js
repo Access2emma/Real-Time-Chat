@@ -13,7 +13,7 @@ const generateLocationMessage = ({longitude, latitude}) => {
 
 	return {
 		from: 'Admin',
-		text: `${baseURL}${latitude},${longitude}`,
+		url: `${baseURL}${latitude},${longitude}`,
 		createdAt: new Date().getTime()
 	}
 }

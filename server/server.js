@@ -23,6 +23,13 @@ io.on('connection', (socket) => {
 			return callback('Name and Room are required');
 		}
 
+		const checkUser = users.getUserByName(name);
+		if(checkUser){
+			return callback('Someone already Join with the name. Try another name!');
+		}
+
+		room = room.toLowerCase();
+
 		// join a private room
 		socket.join(room);
 
@@ -83,6 +90,12 @@ io.on('connection', (socket) => {
 
 			io.to(user.room).emit('new-message', generateMessage({from: 'Admin', text: `${user.name} has left`}))
 		}
+	});
+});
+
+app.get('/room-list', (req, resp) => {
+	resp.send({
+		rooms: users.getAvailableRooms()
 	});
 });
 

@@ -35,9 +35,7 @@
 			if(error){
 				alert(error);
 				window.location.href = '/';
-			}else{
-				console.log('No Error!');
-			}	
+			}
 		});
 	});
 
@@ -81,10 +79,6 @@
 		});
 		
 		usersBox.html(ol);
-	});
-
-	socket.on('disconnect', function(data){
-		console.log('Disconnected from server: ', data);
 	});
 
 

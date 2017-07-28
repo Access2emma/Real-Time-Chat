@@ -93,7 +93,12 @@
 	form.on('submit', function(e){
 		e.preventDefault();
 
-		socket.emit('create-message', {from: 'User', text: messageInput.val()});
+		const txt = messageInput.val();
+
+		if(txt === '' || txt.length < 1)
+			return;
+
+		socket.emit('create-message', {text: txt});
 
 		// reset input
 		messageInput.val('');

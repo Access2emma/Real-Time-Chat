@@ -8,11 +8,11 @@ const generateMessage = ({from, text}) => {
 	}
 }
 
-const generateLocationMessage = ({longitude, latitude}) => {
+const generateLocationMessage = ({from, longitude, latitude}) => {
 	let baseURL = 'https://www.google.com/maps?q=';
 
 	return {
-		from: 'Admin',
+		from,
 		url: `${baseURL}${latitude},${longitude}`,
 		createdAt: new Date().getTime()
 	}

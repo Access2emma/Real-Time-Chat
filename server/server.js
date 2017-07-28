@@ -56,11 +56,19 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('create-message', (message) => {
-		io.emit('new-message', generateMessage(message));
+		const user = users.getUser(socket.id);
+		if(user && isRealString(message.text)){
+			message.from = user.name;
+			io.to(user.room).emit('new-message', generateMessage(message));
+		}
 	});
 
 	socket.on('create-location-message', (position) =>{
-		io.emit('new-location-message', generateLocationMessage(position));
+		const user = users.getUser(socket.id);
+		if(user){
+			position.from = user.name;
+			io.to(user.room).emit('new-location-message', generateLocationMessage(position));
+		}
 	});
 
 	socket.on('disconnect', () => {
@@ -73,7 +81,7 @@ io.on('connection', (socket) => {
 			// update the users list on the clients inside this private room
 			io.to(user.room).emit('update-user-list', users.getUserList(user.room));
 
-			io.emit('new-message', generateMessage({from: 'Admin', text: `${user.name} has left`}))
+			io.to(user.room).emit('new-message', generateMessage({from: 'Admin', text: `${user.name} has left`}))
 		}
 	});
 });

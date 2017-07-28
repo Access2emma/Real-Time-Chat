@@ -7,6 +7,7 @@
 	    <meta name="description" content="Demo project">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/css/main.css">
+		<link rel="stylesheet" href="/css/jquery-editable-select.css">
 	</head>
 	<body class="centered-form">
 		<div class="centered-form__form">
@@ -20,12 +21,41 @@
 				</div>
 				<div class="form-field">
 					<label>Room Name</label>
-					<input type='text' name='room'/>
+					<select id="editable-select" name="room">
+						<option value="">Available Rooms</option>
+					</select>
 				</div>
 				<div class="form-field">
 					<button>Join</button>
 				</div>
 			</form>
 		</div>
+
+<script src="/js/libs/jquery-3.1.1.min.js"></script>
+<script src="/js/libs/jquery-editable-select.js"></script>
+<script>
+	(function($){
+		function populateRoom(){
+			let roomSelect = $('#editable-select');
+			$.getJSON('/room-list', function(result){
+				result.rooms.forEach(room => {
+					$('#editable-select').editableSelect('add', capitalizeFirstLetter(room));
+				})
+			})
+		}
+
+		function capitalizeFirstLetter(string) {
+		    return string.charAt(0).toUpperCase() + string.slice(1);
+		}
+
+		populateRoom();
+
+		$('#editable-select').editableSelect({
+			effects: 'slide',
+			duration: 200,
+		});
+	})(jQuery);
+	
+</script>
 	</body>
 </html>

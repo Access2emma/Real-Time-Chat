@@ -5,7 +5,7 @@
 	let form = $('#message_form'),
 		messageInput = $('#message'),
 		messages = $('#messages'),
-		usersBox = $('#users')
+		usersBox = $('#users'),
 		locationButton = $('#locationButton');
 
 	

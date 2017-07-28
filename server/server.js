@@ -7,10 +7,12 @@ const PORT = process.env.PORT || 3000;
 const publicPath = path.join(__dirname, '../public');
 const {generateMessage, generateLocationMessage} = require('./utils/message');
 const {isRealString} = require('./utils/validation');
+const {Users} = require('./utils/users');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
+const users = new Users();
 
 app.use(express.static(publicPath));
 
@@ -23,6 +25,9 @@ io.on('connection', (socket) => {
 
 		// join a private room
 		socket.join(room);
+
+		// add the current joined user to users list
+		users.addUser(socket.id, name, room);
 
 		/**
 		*	Some function available on socket
@@ -44,6 +49,9 @@ io.on('connection', (socket) => {
 		// broadcast message to every user in the private group except the new user
 		socket.broadcast.to(room).emit('new-message', generateMessage({from: 'Admin', text: `${name} has joined`}));
 
+		// update the users list on the clients inside this private room
+		io.to(room).emit('update-user-list', users.getUserList(room));
+
 		callback();
 	});
 
@@ -56,8 +64,17 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('disconnect', () => {
-		console.log('User disconnected');
-		io.emit('new-message', generateMessage({from: 'Admin', text: 'A user left'}))
+		const user = users.getUser(socket.id);
+
+		if(user){
+			// remove the user
+			users.removeUser(user.id);
+
+			// update the users list on the clients inside this private room
+			io.to(user.room).emit('update-user-list', users.getUserList(user.room));
+
+			io.emit('new-message', generateMessage({from: 'Admin', text: `${user.name} has left`}))
+		}
 	});
 });
 

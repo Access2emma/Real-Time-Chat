@@ -5,6 +5,7 @@
 	let form = $('#message_form'),
 		messageInput = $('#message'),
 		messages = $('#messages'),
+		usersBox = $('#users')
 		locationButton = $('#locationButton');
 
 	
@@ -70,6 +71,16 @@
 
 		scrollToBottom();
 		
+	});
+
+	socket.on('update-user-list', function(usersList){
+		let ol = $('<ol></ol>');
+
+		usersList.forEach(user => {
+			$('<li></li>', {text: user}).appendTo(ol)
+		});
+		
+		usersBox.html(ol);
 	});
 
 	socket.on('disconnect', function(data){

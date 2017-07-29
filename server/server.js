@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3000;
 const publicPath = path.join(__dirname, '../public');
@@ -15,6 +16,8 @@ const io = socketIO(server);
 const users = new Users();
 
 app.use(express.static(publicPath));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 io.on('connection', (socket) => {
 
@@ -93,12 +96,22 @@ io.on('connection', (socket) => {
 	});
 });
 
+app.post('/complete', (req, resp) => {
+	const {token} = req.body;
+
+	if(token){
+		resp.redirect('/chat-index.html');
+	}else{
+		resp.redirect('/index.html');
+	}
+});
+
 app.get('/room-list', (req, resp) => {
 	resp.send({
 		rooms: users.getAvailableRooms()
 	});
 });
 
-server.listen(PORT, ()=>{
+server.listen(PORT, () => {
 	console.log(`Server Started on port: ${PORT}`);
 })

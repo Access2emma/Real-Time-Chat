@@ -1,68 +1,61 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Join Chat</title>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	    <meta name="description" content="Demo project">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="/css/main.css">
-		<link rel="stylesheet" href="/css/jquery-editable-select.css">
-	</head>
-	<body class="centered-form">
-		<div class="centered-form__form">
-			<form action='/chat.html' id="joinRoomForm">
-				<div class="form-field">
-					<h3>Join Chat</h3>
-				</div>
-				<div class="form-field">
-					<label>Display Name</label>
-					<input type='text' name='name' id="name" autofocus />
-				</div>
-				<div class="form-field">
-					<label>Room Name</label>
-					<select id="editable-select" name="room">
-						<option value="">Available Rooms</option>
-					</select>
-				</div>
-				<div class="form-field">
-					<button>Join</button>
-				</div>
-			</form>
+<head>
+  <title>Make Payment for your chat Plan</title>
+  <meta charset="UTF-8" />
+  <script src="https://cdn.worldpay.com/v1/worldpay.js"></script>        
+  <script type='text/javascript'>
+	window.onload = function() {
+	  Worldpay.useTemplateForm({
+		'clientKey':'T_C_acaccb10-3562-4545-b28d-c9eb1a1c4b7e',
+		'form':'paymentForm',
+		'paymentSection':'paymentSection',
+		'display':'inline',
+		'reusable':false,
+		'callback': function(obj) {
+		  if (obj && obj.token) {
+			var _el = document.createElement('input');
+			_el.value = obj.token;
+			_el.type = 'hidden';
+			_el.name = 'token';
+			document.getElementById('paymentForm').appendChild(_el);
+			document.getElementById('paymentForm').submit();
+		  }
+		}
+	  });
+	}
+  </script>
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<form action="/complete" id="paymentForm" method="post">
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" name="name" class="form-control" id="name" />
+					</div>
+
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="text" class="form-control" name="email" id="email" />
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">Card Information</div>
+						<div class="panel-body">
+							<div id='paymentSection'></div>
+						</div>
+					</div>
+
+					<div class="form-group">
+					  <input type="submit" class="btn btn-success" value="Proceed to Chat" onclick="Worldpay.submitTemplateForm()" />
+					</div>
+			  </form>
+			</div>
 		</div>
-
-<script src="/js/libs/jquery-3.1.1.min.js"></script>
-<script src="/js/libs/jquery-editable-select.js"></script>
-<script>
-	(function($){
-		function populateRoom(){
-			let roomSelect = $('#editable-select');
-			$.getJSON('/room-list', function(result){
-				result.rooms.forEach(room => {
-					$('#editable-select').editableSelect('add', capitalizeFirstLetter(room));
-				})
-			})
-		}
-
-		function capitalizeFirstLetter(string) {
-		    return string.charAt(0).toUpperCase() + string.slice(1);
-		}
-
-		populateRoom();
-
-		$('#joinRoomForm').submit(function(){
-			if($('#name').val() == '' || $('#editable-select').val() == ''){
-				alert('Please make sure the two input are not empty');
-				return false;
-			}
-		})
-
-		$('#editable-select').editableSelect({
-			effects: 'slide',
-			duration: 200,
-		});
-	})(jQuery);
-	
-</script>
-	</body>
-</html>
+	</div>
+  
+</body> 
+</html> 

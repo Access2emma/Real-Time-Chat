@@ -29,7 +29,6 @@ class Users{
 	}
 
 	getAvailableRooms(){
-		// return _.uniq(this.userList.map(user => user.room));
 		return this.userList.map(user => user.room).filter((x, i, a) => a.indexOf(x) == i);
 	}
 }
